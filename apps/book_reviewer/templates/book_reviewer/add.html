@@ -8,13 +8,16 @@
     <a href="#">Home</a>
     <a href="#">Logout</a>
     <h3>Add a New Book Title and a Review</h3>
-    <form action="index.html" method="post">
+    <form action="{% url 'book:add_book' %}" method="post">
+    {% csrf_token %}
     <p>Book Title: <input type="text" name="title"></p>
       <p>Author:</p>
-      <p>Choose from the list:<select name="name">
-        <option value=""></option>
+      <p>Choose from the list:<select name="author_name">
+        {% for author in authors %}
+        <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
       </select></p>
-      <p>Or add a new author: <input type="text" name="name"></p>
+      <p>Or add a new author: <input type="text" name="new_author_name"></p>
       <p>Review: <textarea name="review" rows="8" cols="40"></textarea></p>
       <p>Rating: <select name="rating">
         <option value="1">1</option>

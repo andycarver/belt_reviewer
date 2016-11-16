@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.title }}</title>
+</head>
+
+<body>
+    <h1>{{ book.title }}</h1>
+    <h2>{{ book.author.name }}</h2>
+    <h2>Reviews:</h2>
+    {% for review in reviews %}
+        <p>Rating: {{ review.rating }}</p>
+        <p>{{ review.reviews.name }} {{ review.content }}</p>
+        <p>{{ review.created_at }}</p>
+        <a href="{% url 'book:destroy' review_id=review.id book_id=book.id  %}">Delete</a>
+    {% endfor %}
+    <form action="{% url 'book:add_review' book.id %}" method="POST">
+        {% csrf_token %}
+        <p>Review:</p>
+        <textarea name="review" rows="8" cols="40"></textarea>
+        <p>Rating:
+            <select name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </p>
+        <input type="submit" name="submit" value="Add Review">
+    </form>
+</body>
+
+</html>

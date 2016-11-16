@@ -8,13 +8,18 @@ class AuthorManager(models.Manager):
 
 class BookManager(models.Manager):
     def add_book(self, request):
-        pass
+        author = Author.objects.create(name=request.POST["new_author_name"])
+        new_book = Book.objects.create(title=request.POST['title'], author=author)
+        return new_book
 
 class ReviewManager(models.Manager):
-    def add_review(self, request):
-        pass
-    def destroy_review(self, request):
-        pass
+    def add_review(self, request, new_book_id):
+        book = Book.objects.get(id=new_book_id)
+        user = User.objects.get(id=request.session['user']['user_id'])
+        review = Review.objects.create(content=request.POST['review'], creator=user, reviewed_book=book, rating=request.POST['rating'])
+
+    def destroy(self, request, id):
+        Review.objects.get(id=id).delete()
 
 
 class Author(models.Model):

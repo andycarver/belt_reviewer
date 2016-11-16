@@ -6,7 +6,7 @@
 </head>
 <body>
     <h3>Welcome, {{ request.session.user.name }}</h3>
-    <a href="#">Add Book and Review</a>
+    <a href="{% url 'book:editor' %}">Add Book and Review</a>
     <a href="#">Logout</a>
     <h2>Recent Book Reviews:</h2>
     <h4><a href="#"></a>Name of the book will go here</h4>
