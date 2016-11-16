@@ -4,11 +4,16 @@ from django.db import models
 
 class AuthorManager(models.Manager):
     def add_author(self, request):
-        pass
-
+        errors = []
+        try:
+            author = Author.objects.get(name=request.POST['new_author_name'])
+        except:
+            errors.append("Author already exists. Please use drop down.")
+            return (False, errors)
+        author = Author.objects.create(name=request.POST['new_author_name'])
+        return (True, errors)
 class BookManager(models.Manager):
     def add_book(self, request):
-        author = Author.objects.create(name=request.POST["new_author_name"])
         new_book = Book.objects.create(title=request.POST['title'], author=author)
         return new_book
 

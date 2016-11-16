@@ -14,8 +14,15 @@ def show_editor(request):
 def add_book_and_review(request):
     new_book = Book.objects.add_book(request)
     Review.objects.add_review(request, new_book.id)
+    author_result=Author.objects.add_author(request)
+    if author_result[0]==False:
+        print_errors(request, author_result[1])
+        return redirect('book:editor')
 
     return redirect('book:show_book', new_book.id)
+def print_errors(request, error_list):
+    for error in error_list:
+        message.add_message(request, messages.INFO, error)
 
 def add_review(request, id):
     Review.objects.add_review(request, id)
