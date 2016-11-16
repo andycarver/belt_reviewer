@@ -3,13 +3,19 @@ from ..login.models import User
 from django.db import models
 
 class AuthorManager(models.Manager):
-    pass
+    def add_author(self, request):
+        pass
 
 class BookManager(models.Manager):
-    pass
+    def add_book(self, request):
+        pass
 
 class ReviewManager(models.Manager):
-    pass
+    def add_review(self, request):
+        pass
+    def destroy_review(self, request):
+        pass
+
 
 class Author(models.Model):
     name = models.CharField(max_length=80)
@@ -32,5 +38,3 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = ReviewManager()
-
-
