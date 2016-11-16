@@ -16,5 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 
 urlpatterns = [
-    url(r'^', include('apps.book_reviewer.urls')),
+    url(r'^', include('apps.login.urls',namespace='login')),
+    url(r'^book/', include('apps.book_reviewer.urls', namespace='book')),
 ]
