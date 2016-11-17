@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Review</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'book_reviewer/book.css' %}">
 </head>
 <body>
     <h3>Welcome, {{ request.session.user.name }}</h3>
     <a href="{% url 'book:editor' %}">Add Book and Review</a>
-    <a href="#">Logout</a>
+    <a href="{% url 'book:logout' %}">Logout</a>
     <h2>Recent Book Reviews:</h2>
-    <h4><a href="#"></a>Name of the book will go here</h4>
-    Rating: <img src="" alt="" />
-    <a href="#">User Name here</a><p>
-      review goes here
+    {% for review in recent_reviews %}
+    <h4><a href="{% url 'book:show_book' review.reviewed_book.id %}">{{ review.reviewed_book.title }}</a></h4>
+    <img src="{% static 'book_reviewer/' %}{{review.rating}}.svg" alt="Rating: {{ review.rating }}"/>
+    <a href="{% url 'book:show_user' review.creator.id %}">{{ review.creator.name }}</a><p>
+      {{ review.content }}
     </p>
+    <p>{{ review.created_at }}</p>
+    <br>
+    {% endfor %}
     <h2>Other Books with Reviews:</h2>
     <ul>
-      <li>loops book names</li>
+        {% for book in all_books %}
+      <li><a href="{% url 'book:show_book' book.id %}">{{ book.title }}</a></li>
+        {% endfor %}
     </ul>
 </body>
 </html>

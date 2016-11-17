@@ -4,17 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ book.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'book_reviewer/book.css' %}">
 </head>
 
 <body>
     <h1>{{ book.title }}</h1>
     <h2>{{ book.author.name }}</h2>
+    <a href="{% url 'book:index' %}">Home</a>
+    <a href="{% url 'book:logout' %}">Logout</a>
     <h2>Reviews:</h2>
     {% for review in reviews %}
-        <p>Rating: {{ review.rating }}</p>
-        <p>{{ review.reviews.name }} {{ review.content }}</p>
-        <p>{{ review.created_at }}</p>
+        <img src="{% static 'book_reviewer/' %}{{review.rating}}.svg" alt="Rating: {{ review.rating }}"/>
+        <a href="{% url 'book:show_user' review.creator.id %}">{{ review.creator.name }}</a>
+        <p> {{ review.content }}</p>
+        {% if review.creator.id == request.session.user.user_id %}
         <a href="{% url 'book:destroy' review_id=review.id book_id=book.id  %}">Delete</a>
+        {% endif %}
+        <p>{{ review.created_at }}</p>
     {% endfor %}
     <form action="{% url 'book:add_review' book.id %}" method="POST">
         {% csrf_token %}
